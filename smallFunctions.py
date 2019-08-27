@@ -1,4 +1,5 @@
 import queue
+import time
 
 def file2String(inputFile):
     f=open(inputFile,"rb")
@@ -20,21 +21,26 @@ def processLine(line):
     print(str(counter)+" "+line)
     counter+=1
 
+def Epoch2STR(epoch):
+    return time.strftime('%Y-%m-%d %H:%M:%S.000 %j', time.gmtime(epoch))
+
+
+
 if __name__ =="__main__":
 
-    inputQueue=file2String("input.txt")
+    #inputQueue=file2String("input.txt")
     
-    lineBuffer=""
-    while not inputQueue.empty():
-        byte=inputQueue.get()
-        if byte==b'\n':
-            processLine(lineBuffer)
-            lineBuffer=""
-        else:
-            lineBuffer=lineBuffer+byte.decode("utf-8")
+    #lineBuffer=""
+    #while not inputQueue.empty():
+        #byte=inputQueue.get()
+        #if byte==b'\n':
+            #processLine(lineBuffer)
+            #lineBuffer=""
+        #else:
+            #lineBuffer=lineBuffer+byte.decode("utf-8")
             
     
-    
+    print(Epoch2STR(1546370162))
     
     #for line in inputFile:
         #print(line)
