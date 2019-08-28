@@ -28,7 +28,9 @@ def file2String(inputFile):
             break        
     return q           
 
-counter=0        
+
+#########################################################################
+counter=0     
 def processLine(line):
     global counter
     print(str(counter)+" "+line)
