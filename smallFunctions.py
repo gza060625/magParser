@@ -101,8 +101,19 @@ def findOutputFileName(year,month,day):
 
 def createOutputFile(folderPath,fileName):     
     filePath=os.path.join(folderPath,fileName)
+
+    fileExistsFlag=False
+    if os.path.exists(filePath):
+        fileExistsFlag=True
+
     fileHandler=open(filePath,"a") 
-    # print(filePath)     
+
+    if not fileExistsFlag:
+        ini=parseINI("CPM1.ini")
+        generateTitle(ini,fileHandler)
+        print("here")
+    
+   
     return fileHandler
 
 #########################################################################
@@ -118,7 +129,7 @@ def parseINI(iniFile):
     result=dict()
     for line in iniHandler:
         line=line.split("=",1)
-        result[line[0]]=line[1].replace('\n','')
+        result[line[0]]=line[1].rstrip()
     return result
 
 def padding72(name,content,firstColumn=25,total=72):
@@ -127,20 +138,20 @@ def padding72(name,content,firstColumn=25,total=72):
     padding=" "*(firstColumn-lenName)
     name=name+padding
     
-    nameContent=name+content
+    nameContent=(name+content)
     lenNameContent=len(nameContent)
     padding=" "*(total-lenNameContent-1-1)+"|\n"   
-   
-    return nameContent+padding
+    result=nameContent+padding
+    print(result)
+    return result
 
-def generateTitle(ini):
-    fileHandler=open("test.txt",'a')
+def generateTitle(ini,fileHandler):   
     titleElementList=["Format","Source of Data","Station Name","IAGA CODE","Geodetic Latitude","Geodetic Longitude","Reported","Sensor Orientation","Elevation","Digital Sampling","Data Interval Type","Data Type"]
     for x in titleElementList:
         print(x,ini[x])
         fileHandler.write(padding72(x,ini[x]))
         
-    fileHandler.write("DATE      TIME      DOY     X      Y     Z    H")
+    fileHandler.write("DATE       TIME         DOY     X       Y       Z       H\n")
 #########################################################################
     
 

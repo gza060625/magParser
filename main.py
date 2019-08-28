@@ -65,7 +65,7 @@ if __name__ =="__main__":
 
 	conn=initializeSock(ip,TCP_PORT)
 
-	firsttimeFlag=True
+	firsttimeFlag=2
 
 	line=""
 	while True:
@@ -77,7 +77,7 @@ if __name__ =="__main__":
 			while not q.empty():
 				ch=q.get()
 				if ch=="\n":
-					firsttimeFlag=False
+					firsttimeFlag=firsttimeFlag-1
 
 		while not q.empty():
 			ch=q.get()
