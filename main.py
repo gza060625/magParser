@@ -14,6 +14,9 @@ import sys
 from smallFunctions import *
 
 ################################################################################
+TCP_IP = "0.0.0.0"
+#UDP_PORT = 5632
+
 
 ################################################################################
 
@@ -29,56 +32,56 @@ def parse_args():
 	station = inargs[0]
 	return station
 
+def initializeSock(ip,TCP_PORT):
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+	sock.bind((TCP_IP, TCP_PORT))
 
+	sock.listen(2)
+	conn,addr = sock.accept()
 
-station = parse_args()
+	return conn
 
-TCP_IP = "0.0.0.0"
-#UDP_PORT = 5632
-ini = '/home/augouser/work/cellpico/'+station+'.ini'
-ini = './'+station+'.ini'
+if __name__ =="__main__":
 
-with open(ini, 'rb') as file:
-	for line in file.xreadlines():
-		#print line
-		entry = re.split('=',line[0:len(line)-1])
-		if entry[0] == 'IP':
-			ip = entry[1]
-		elif entry[0] == 'port':
-			TCP_PORT = int(entry[1])
+	station = parse_args()
 
-#print TCP_PORT
+	ini = '/home/augouser/work/cellpico/'+station+'.ini'
+	ini = './'+station+'.ini'
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-sock.bind((TCP_IP, TCP_PORT))
+	ip=None
+	TCP_PORT=None
+	with open(ini, 'rb') as file:
+		for line in file.xreadlines():
+			#print line
+			entry = re.split('=',line[0:len(line)-1])
+			if entry[0] == 'ip':
+				ip = entry[1]
+			elif entry[0] == 'port':
+				TCP_PORT = int(entry[1])
 
-sock.listen(2)
-conn,addr = sock.accept()
-#print "got connection"
+	print(ip)
+	print(TCP_PORT)	
 
-line=""
-while True:
-	data = conn.recv(8)  #2048
-	
-	q=str2Queue(data,q)
+	conn=initializeSock(ip,TCP_PORT)
 
-	while not q.empty():
-		ch=q.get()
-		line=line+ch
-		if ch =="\n":
-			processLine(line)
-			line=""
+	firsttimeFlag=True
 
-	# print(len(line))
+	line=""
+	while True:
+		data = conn.recv(8)  #2048
+		
+		q=str2Queue(data,q)
 
+		if firsttimeFlag:
+			while not q.empty():
+				ch=q.get()
+				if ch=="\n":
+					firsttimeFlag=False
 
-
-	#cdate = datetime.datetime.utcnow()
-	#sdate = datetime.datetime.strftime(cdate,"%y%j%H")
-	#sys.stdout.write(data)
-	#sys.stdout.flush()
-	# print ("DATE:{}\n".format(sdate))
-	# print ("[{}]".format(data))
-	#with open('/run/shm/S'+sdate+'.'+station+'.PICO.DAT',"a") as file:
-		#file.write(data)
+		while not q.empty():
+			ch=q.get()
+			line=line+ch
+			if ch =="\n":
+				processLine(line)
+				line=""

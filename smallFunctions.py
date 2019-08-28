@@ -14,6 +14,8 @@ outputPath="./"
 fileHandler=None
 q=Queue.Queue()
 
+dayFlag=-1
+
 #########################################################################
 
 def file2String(inputFile):
@@ -33,9 +35,25 @@ def file2String(inputFile):
 #########################################################################
 counter=0     
 def processLine(line):
-    global counter
+    global counter,fileHandler
     print(str(counter)+" "+line)
     counter+=1
+
+    line=line.split(",")
+    x=line[0]
+    y=line[1]
+    z=line[2]
+    epoch=int(line[4])
+
+    print(epoch)
+
+    fileHandler=createDateFolder(epoch)
+    fileHandler.write(Epoch2STR(epoch))
+    fileHandler.write(",".join([x,y,z])+"\n")
+
+    # print(x,y,z,epoch)
+
+
 
 def Epoch2STR(epoch):
     return time.strftime('%Y-%m-%d %H:%M:%S.000 %j', time.gmtime(epoch))
@@ -65,7 +83,9 @@ def createOutputFolder(path):
         os.makedirs(path)
         print("new")
     else:
-        print("old")       
+        print("old")    
+
+    print(path)   
     
 def findOutputFileName(year,month,day):    
     return "_".join([str(year),str(month),str(day)])+".txt"
@@ -87,16 +107,16 @@ def str2Queue(string,q):
 #########################################################################
     
 
-if __name__ =="__main__":
+# if __name__ =="__main__":
 
 
-    f=createDateFolder(221212)
+#     f=createDateFolder(221212)
     
     
     
-    f.write("text222222")
+#     f.write("text222222")
     
-    f.close()
+#     f.close()
     
 
     
