@@ -1,0 +1,85 @@
+Format              IAGA-2002
+Source of Data      Ath. Univ. THEMIS UCLA Magnetic Network
+Station Name        CPM1
+IAGA CODE           CPM1
+Geodetic Latitude   58.387
+Geodetic Longitude  -116.005
+Reported            HDZF
+Sensor Orientation  HDZF
+Elevation           600
+Digital Sampling    1 
+Data Interval Type  1-second instantaneous
+Data Type           Variation
+Format                   IAGA-2002
+Source of Data           Ath. Univ. THEMIS UCLA Magnetic Network
+Station Name             CPM1
+IAGA CODE                CPM1
+Geodetic Latitude        58.387
+Geodetic Longitude       -116.005
+Reported                 HDZF
+Sensor Orientation       HDZF
+Elevation                600
+Digital Sampling         1 
+Data Interval Type       1-second instantaneous
+Data Type                Variation
+Format                   IAGA-2002
+Source of Data           Ath. Univ. THEMIS UCLA Magnetic Network
+Station Name             CPM1
+IAGA CODE                CPM1
+Geodetic Latitude        58.387
+Geodetic Longitude       -116.005
+Reported                 HDZF
+Sensor Orientation       HDZF
+Elevation                600
+Digital Sampling         1 
+Data Interval Type       1-second instantaneous
+Data Type                Variation
+Format                   IAGA-2002                                     |Source of Data           Ath. Univ. THEMIS UCLA Magnetic Network       |Station Name             CPM1                                          |IAGA CODE                CPM1                                          |Geodetic Latitude        58.387                                        |Geodetic Longitude       -116.005                                      |Reported                 HDZF                                          |Sensor Orientation       HDZF                                          |Elevation                600                                           |Digital Sampling         1                                             |Data Interval Type       1-second instantaneous                        |Data Type                Variation                                     |Format                   IAGA-2002                                    |
+Source of Data           Ath. Univ. THEMIS UCLA Magnetic Network      |
+Station Name             CPM1                                         |
+IAGA CODE                CPM1                                         |
+Geodetic Latitude        58.387                                       |
+Geodetic Longitude       -116.005                                     |
+Reported                 HDZF                                         |
+Sensor Orientation       HDZF                                         |
+Elevation                600                                          |
+Digital Sampling         1                                            |
+Data Interval Type       1-second instantaneous                       |
+Data Type                Variation                                    |
+Format                   IAGA-2002                                    |
+Source of Data           Ath. Univ. THEMIS UCLA Magnetic Network      |
+Station Name             CPM1                                         |
+IAGA CODE                CPM1                                         |
+Geodetic Latitude        58.387                                       |
+Geodetic Longitude       -116.005                                     |
+Reported                 HDZF                                         |
+Sensor Orientation       HDZF                                         |
+Elevation                600                                          |
+Digital Sampling         1                                            |
+Data Interval Type       1-second instantaneous                       |
+Data Type                Variation                                    |
+Format                   IAGA-2002                                    |
+Source of Data           Ath. Univ. THEMIS UCLA Magnetic Network      |
+Station Name             CPM1                                         |
+IAGA CODE                CPM1                                         |
+Geodetic Latitude        58.387                                       |
+Geodetic Longitude       -116.005                                     |
+Reported                 HDZF                                         |
+Sensor Orientation       HDZF                                         |
+Elevation                600                                          |
+Digital Sampling         1                                            |
+Data Interval Type       1-second instantaneous                       |
+Data Type                Variation                                    |
+Format                   IAGA-2002                                    |
+Source of Data           Ath. Univ. THEMIS UCLA Magnetic Network      |
+Station Name             CPM1                                         |
+IAGA CODE                CPM1                                         |
+Geodetic Latitude        58.387                                       |
+Geodetic Longitude       -116.005                                     |
+Reported                 HDZF                                         |
+Sensor Orientation       HDZF                                         |
+Elevation                600                                          |
+Digital Sampling         1                                            |
+Data Interval Type       1-second instantaneous                       |
+Data Type                Variation                                    |
+DATE      TIME      DOY     X      Y     Z    H

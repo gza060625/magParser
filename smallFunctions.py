@@ -113,20 +113,43 @@ def str2Queue(string,q):
         q.put(i)
     return q
 
+def parseINI(iniFile):
+    iniHandler=open(iniFile) 
+    result=dict()
+    for line in iniHandler:
+        line=line.split("=",1)
+        result[line[0]]=line[1].replace('\n','')
+    return result
 
+def padding72(name,content,firstColumn=25,total=72):
+    
+    lenName=len(name)
+    padding=" "*(firstColumn-lenName)
+    name=name+padding
+    
+    nameContent=name+content
+    lenNameContent=len(nameContent)
+    padding=" "*(total-lenNameContent-1-1)+"|\n"   
+   
+    return nameContent+padding
+
+def generateTitle(ini):
+    fileHandler=open("test.txt",'a')
+    titleElementList=["Format","Source of Data","Station Name","IAGA CODE","Geodetic Latitude","Geodetic Longitude","Reported","Sensor Orientation","Elevation","Digital Sampling","Data Interval Type","Data Type"]
+    for x in titleElementList:
+        print(x,ini[x])
+        fileHandler.write(padding72(x,ini[x]))
+        
+    fileHandler.write("DATE      TIME      DOY     X      Y     Z    H")
 #########################################################################
     
 
-# if __name__ =="__main__":
+if __name__ =="__main__":
+    iniDictioanry=parseINI("CPM1.ini")
+    generateTitle(iniDictioanry)
 
 
-#     f=createDateFolder(221212)
-    
-    
-    
-#     f.write("text222222")
-    
-#     f.close()
+
     
 
     
