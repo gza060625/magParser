@@ -17,7 +17,7 @@ from smallFunctions import *
 TCP_IP = "0.0.0.0"
 #UDP_PORT = 5632
 
-
+iniDict=dict()
 ################################################################################
 
 
@@ -44,10 +44,13 @@ def initializeSock(ip,TCP_PORT):
 
 if __name__ =="__main__":
 
+
 	station = parse_args()
 
 	ini = '/home/augouser/work/cellpico/'+station+'.ini'
 	ini = './'+station+'.ini'
+
+	parseINI(ini)
 
 	ip=None
 	TCP_PORT=None

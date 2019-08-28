@@ -5,48 +5,32 @@ import glob, os,sys
 #########################################################################
 ##### Parameters
 #########################################################################
-inputPath="" 
+iniFileInputPath="./" 
 
-outputPath="/home/enson/magParser"
-# outputPath=""
+outputPath="./"
+# outputPath="/autumndp/L0"
+
+#########################################################################
+##### Global
 #########################################################################
 
 fileHandler=None
 q=Queue.Queue()
-
-lastDay=None
-
-#########################################################################
-
-def file2String(inputFile):
-    f=open(inputFile,"rb")
-    q = Queue.Queue()
-    #stringBuffer=""
-    while True:
-        byte=f.read(1)
-        if byte:
-            #stringBuffer=stringBuffer+byte
-            q.put(byte)            
-        else:            
-            break        
-    return q           
-
+lastDay="-1"
 
 #########################################################################
-counter=0     
+   
 def processLine(line):
-    global counter,fileHandler,lastDay
-    print(str(counter)+" "+line)
-    counter+=1
+    global fileHandler,lastDay 
 
     line=line.split(",")
     x=line[0]
     y=line[1]
     z=line[2]
+    H="FFFFFF"
     # print(line)
     dateStr=line[12]
-    timeStr=line[4]
-    
+    timeStr=line[4]    
 
     datetime=str2datetime(dateStr,timeStr)
     
@@ -55,18 +39,15 @@ def processLine(line):
         lastDay=dateStr
 
     fileHandler.write(datetime2STR(datetime))
-    fileHandler.write("\t".join([x,y,z])+"\n")
+    fileHandler.write("\t".join([x,y,z,H])+"\n")
 
-    # print(x,y,z,epoch)
-
+#########################################################################
 def str2datetime(dateStr,timeStr):
-    return time.strptime(dateStr+timeStr,"%d%m%y%H%M%S")
-
-     
+    return time.strptime(dateStr+timeStr,"%d%m%y%H%M%S")     
 
 def datetime2STR(datetime):
     return time.strftime('%Y-%m-%d %H:%M:%S.000 %j\t', datetime)
-#########################################################################
+
 
 def createDateFolder(datetime):
     global fileHandler
@@ -78,28 +59,33 @@ def createDateFolder(datetime):
     if not fileHandler==None:
         fileHandler.close()
         
-    name=findOutputFileName(datetime.tm_year,datetime.tm_mon,datetime.tm_mday)
+    name=findOutputFileName(datetime)
     fileHandler=createOutputFile(folderPath,name)
     
     return fileHandler
 
 
-def findOutputPath(year,month,day,outputPath=outputPath):    
-    return os.path.join(outputPath,str(year),str(month),str(day))
+def findOutputPath(year,month,day,outputPath=outputPath): 
+    global iniDict   
+    return os.path.join(outputPath,iniDict["IAGA CODE"],str(year),str(month),str(day))
 
 def createOutputFolder(path):  
     if not os.path.exists(path):
         os.makedirs(path)
-        print("new")
-    else:
-        print("old")    
-
-    # print(path)   
+    #     print("new")
+    # else:
+    #     print("old")    
+    return path
+  
     
-def findOutputFileName(year,month,day):    
-    return "_".join([str(year),str(month),str(day)])+".txt"
+def findOutputFileName(datetime):
+    global iniDict
+    timestamp=time.strftime('%y%m%d', datetime)
+    
+    return ".".join(["L0",iniDict["Instrument Type"],iniDict["IAGA CODE"],iniDict["ISO Cadence"],timestamp,".txt"])
 
-def createOutputFile(folderPath,fileName):     
+def createOutputFile(folderPath,fileName):  
+    global iniDict   
     filePath=os.path.join(folderPath,fileName)
 
     fileExistsFlag=False
@@ -109,8 +95,8 @@ def createOutputFile(folderPath,fileName):
     fileHandler=open(filePath,"a") 
 
     if not fileExistsFlag:
-        ini=parseINI("CPM1.ini")
-        generateTitle(ini,fileHandler)
+        # ini=parseINI("CPM1.ini")
+        generateTitle(iniDict,fileHandler)
         print("here")
     
    
@@ -125,12 +111,14 @@ def str2Queue(string,q):
     return q
 
 def parseINI(iniFile):
+    global iniDict
     iniHandler=open(iniFile) 
     result=dict()
     for line in iniHandler:
         line=line.split("=",1)
         result[line[0]]=line[1].rstrip()
-    return result
+    iniDict=result
+    # return result
 
 def padding72(name,content,firstColumn=25,total=72):
     
@@ -142,13 +130,11 @@ def padding72(name,content,firstColumn=25,total=72):
     lenNameContent=len(nameContent)
     padding=" "*(total-lenNameContent-1-1)+"|\n"   
     result=nameContent+padding
-    print(result)
     return result
 
 def generateTitle(ini,fileHandler):   
     titleElementList=["Format","Source of Data","Station Name","IAGA CODE","Geodetic Latitude","Geodetic Longitude","Reported","Sensor Orientation","Elevation","Digital Sampling","Data Interval Type","Data Type"]
-    for x in titleElementList:
-        print(x,ini[x])
+    for x in titleElementList:      
         fileHandler.write(padding72(x,ini[x]))
         
     fileHandler.write("DATE       TIME         DOY     X       Y       Z       H\n")
