@@ -53,11 +53,12 @@ conn,addr = sock.accept()
 
 while True:
 	data = conn.recv(8)  #2048
-	cdate = datetime.datetime.utcnow()
-	sdate = datetime.datetime.strftime(cdate,"%y%j%H")
-	sys.stdout.write(data)
-	sys.stdout.flush()
+	print(type(data))
+	#cdate = datetime.datetime.utcnow()
+	#sdate = datetime.datetime.strftime(cdate,"%y%j%H")
+	#sys.stdout.write(data)
+	#sys.stdout.flush()
 	# print ("DATE:{}\n".format(sdate))
 	# print ("[{}]".format(data))
-	with open('/run/shm/S'+sdate+'.'+station+'.PICO.DAT',"a") as file:
-		file.write(data)
+	#with open('/run/shm/S'+sdate+'.'+station+'.PICO.DAT',"a") as file:
+		#file.write(data)
