@@ -118,6 +118,8 @@ def parseINI(iniFile):
         line=line.split("=",1)
         result[line[0]]=line[1].rstrip()
     iniDict=result
+    # print(iniDict)
+    return result
     # return result
 
 def padding72(name,content,firstColumn=25,total=72):
@@ -141,9 +143,9 @@ def generateTitle(ini,fileHandler):
 #########################################################################
     
 
-if __name__ =="__main__":
-    iniDictioanry=parseINI("CPM1.ini")
-    generateTitle(iniDictioanry)
+# if __name__ =="__main__":
+    # iniDictioanry=parseINI("CPM1.ini")
+    # generateTitle(iniDictioanry)
 
 
 

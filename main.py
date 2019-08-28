@@ -8,15 +8,15 @@
 # USAGE
 # ./cpm.receiver.tcp.2.py CMP1
 ################################################################################
-
 import socket, datetime, optparse, re
-import sys
+import Queue
+import time
+import glob, os,sys
+
 from smallFunctions import *
 
 ################################################################################
 TCP_IP = "0.0.0.0"
-#UDP_PORT = 5632
-
 iniDict=dict()
 ################################################################################
 
@@ -32,7 +32,10 @@ def parse_args():
 	station = inargs[0]
 	return station
 
-def initializeSock(ip,TCP_PORT):
+def initializeSock():
+	global iniDict
+	ip=iniDict["ip"]
+	TCP_PORT=int(iniDict["port"])
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 	sock.bind((TCP_IP, TCP_PORT))
@@ -42,34 +45,22 @@ def initializeSock(ip,TCP_PORT):
 
 	return conn
 
-if __name__ =="__main__":
+def initializeIni(station):
 
+	iniPath=os.path.join(iniFileInputPath,station+'.ini')
+	return parseINI(iniPath)
+
+if __name__ =="__main__":
 
 	station = parse_args()
 
-	ini = '/home/augouser/work/cellpico/'+station+'.ini'
-	ini = './'+station+'.ini'
+	iniDict=initializeIni(station)
 
-	parseINI(ini)
+	conn=initializeSock()
 
-	ip=None
-	TCP_PORT=None
-	with open(ini, 'rb') as file:
-		for line in file.xreadlines():
-			#print line
-			entry = re.split('=',line[0:len(line)-1])
-			if entry[0] == 'ip':
-				ip = entry[1]
-			elif entry[0] == 'port':
-				TCP_PORT = int(entry[1])
 
-	print(ip)
-	print(TCP_PORT)	
-
-	conn=initializeSock(ip,TCP_PORT)
 
 	firsttimeFlag=2
-
 	line=""
 	while True:
 		data = conn.recv(8)  #2048
