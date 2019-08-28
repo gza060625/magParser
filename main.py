@@ -4,7 +4,9 @@
 # cpm.receiver.tcp.2.py
 # Ian Schofield
 # August 22, 2019
-#
+# Enson Guo
+# August 28, 2019
+
 # USAGE
 # ./cpm.receiver.tcp.2.py CMP1
 ################################################################################
@@ -14,6 +16,7 @@ iniFileInputPath="./"
 
 outputPath="./"
 # outputPath="/autumndp/L0"
+
 TCP_IP = "0.0.0.0"
 
 ################################################################################
@@ -46,7 +49,7 @@ def processLine(line):
     datetime=str2datetime(dateStr,timeStr)
     
     if not lastDay==dateStr:
-        fileHandler=createDateFolder(datetime)
+        fileHandler=createFileHandler(datetime)
         lastDay=dateStr
 
     fileHandler.write(datetime2STR(datetime))
@@ -60,14 +63,14 @@ def datetime2STR(datetime):
     return time.strftime('%Y-%m-%d %H:%M:%S.000 %j\t', datetime)
 #########################################################################
 
-def createDateFolder(datetime):
+def createFileHandler(datetime):
     global fileHandler    
+
+    if not fileHandler==None:
+        fileHandler.close()
     
     folderPath=findOutputPath(datetime.tm_year,datetime.tm_mon,datetime.tm_mday)
     createOutputFolder(folderPath)
-    
-    if not fileHandler==None:
-        fileHandler.close()
         
     name=findOutputFileName(datetime)
     fileHandler=createOutputFile(folderPath,name)
@@ -101,11 +104,8 @@ def createOutputFile(folderPath,fileName):
 
     fileHandler=open(filePath,"a") 
 
-    if not fileExistsFlag:
-        # ini=parseINI("CPM1.ini")
-        generateTitle(iniDict,fileHandler)
-        print("here")
-    
+    if not fileExistsFlag:       
+        generateTitle(iniDict,fileHandler)    
    
     return fileHandler
 
@@ -125,21 +125,20 @@ def parseINI(iniFile):
         line=line.split("=",1)
         result[line[0]]=line[1].rstrip()
     iniDict=result
-    # print(iniDict)
     return result
-    # return result
+
 
 def padding72(name,content,firstColumn=25,total=72):
     
     lenName=len(name)
-    padding=" "*(firstColumn-lenName)
-    name=name+padding
+    padding1=" "*(firstColumn-lenName)
     
-    nameContent=(name+content)
+    
+    nameContent=(name+padding1+content)
     lenNameContent=len(nameContent)
-    padding=" "*(total-lenNameContent-1-1)+"|\n"   
-    result=nameContent+padding
-    return result
+    padding2=" "*(total-lenNameContent-1-1)+"|\n"   
+
+    return nameContent+padding2
 
 def generateTitle(ini,fileHandler):   
     titleElementList=["Format","Source of Data","Station Name","IAGA CODE","Geodetic Latitude","Geodetic Longitude","Reported","Sensor Orientation","Elevation","Digital Sampling","Data Interval Type","Data Type"]

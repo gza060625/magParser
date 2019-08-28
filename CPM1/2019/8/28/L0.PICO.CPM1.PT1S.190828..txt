@@ -1,0 +1,30 @@
+Format                   IAGA-2002                                    |
+Source of Data           Ath. Univ. THEMIS UCLA Magnetic Network      |
+Station Name             CPM1                                         |
+IAGA CODE                CPM1                                         |
+Geodetic Latitude        58.387                                       |
+Geodetic Longitude       -116.005                                     |
+Reported                 HDZF                                         |
+Sensor Orientation       HDZF                                         |
+Elevation                600                                          |
+Digital Sampling         1                                            |
+Data Interval Type       1-second instantaneous                       |
+Data Type                Variation                                    |
+DATE       TIME         DOY     X       Y       Z       H
+2019-08-28 21:34:08.000 240	BB	02174F	0274D7	FFFFFF
+2019-08-28 21:34:09.000 240	020CBD	021757	0274D8	FFFFFF
+2019-08-28 21:34:10.000 240	020CBE	021757	0274D8	FFFFFF
+2019-08-28 21:34:11.000 240	020CBB	021753	0274D7	FFFFFF
+2019-08-28 21:34:12.000 240	020CBC	021754	0274D7	FFFFFF
+2019-08-28 21:34:13.000 240	020CBE	021757	0274D8	FFFFFF
+2019-08-28 21:34:14.000 240	020CBC	021756	0274D8	FFFFFF
+2019-08-28 21:34:15.000 240	020CBB	021752	0274D7	FFFFFF
+2019-08-28 21:34:16.000 240	020CBD	021756	0274D8	FFFFFF
+2019-08-28 21:34:17.000 240	020CBC	021753	0274D7	FFFFFF
+2019-08-28 21:34:18.000 240	020CBC	021754	0274D6	FFFFFF
+2019-08-28 21:34:19.000 240	020CBC	021755	0274D7	FFFFFF
+2019-08-28 21:34:20.000 240	020CBD	021755	0274D7	FFFFFF
+2019-08-28 21:34:21.000 240	020CBE	021759	0274D8	FFFFFF
+2019-08-28 21:34:22.000 240	020CBD	021756	0274D7	FFFFFF
+2019-08-28 21:34:23.000 240	020CBD	021756	0274D7	FFFFFF
+2019-08-28 21:34:24.000 240	020CC0	02175A	0274D7	FFFFFF
