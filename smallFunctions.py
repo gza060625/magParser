@@ -1,4 +1,4 @@
-import queue
+import Queue
 import time
 import glob, os,sys
 
@@ -12,12 +12,13 @@ outputPath="./"
 #########################################################################
 
 fileHandler=None
+q=Queue.Queue()
 
 #########################################################################
 
 def file2String(inputFile):
     f=open(inputFile,"rb")
-    q = queue.Queue()
+    q = Queue.Queue()
     #stringBuffer=""
     while True:
         byte=f.read(1)
@@ -60,7 +61,11 @@ def findOutputPath(year,month,day,outputPath=outputPath):
     return os.path.join(outputPath,str(year),str(month),str(day))
 
 def createOutputFolder(path):  
-    os.makedirs(path, exist_ok=True)    
+    if not os.path.exists(path):
+        os.makedirs(path)
+        print("new")
+    else:
+        print("old")       
     
 def findOutputFileName(year,month,day):    
     return "_".join([str(year),str(month),str(day)])+".txt"
@@ -69,6 +74,17 @@ def createOutputFile(folderPath,fileName):
     filePath=os.path.join(folderPath,fileName)
     fileHandler=open(filePath,"a")      
     return fileHandler
+
+#########################################################################
+
+def str2Queue(string,q):    
+    length=len(string)
+    for i in string:
+        q.put(i)
+    return q
+
+
+#########################################################################
     
 
 if __name__ =="__main__":

@@ -11,6 +11,12 @@
 
 import socket, datetime, optparse, re
 import sys
+from smallFunctions import *
+
+################################################################################
+
+################################################################################
+
 
 def parse_args():
 	usage = "usage: %prog [ini file]"
@@ -51,9 +57,23 @@ sock.listen(2)
 conn,addr = sock.accept()
 #print "got connection"
 
+line=""
 while True:
 	data = conn.recv(8)  #2048
-	print(type(data))
+	
+	q=str2Queue(data,q)
+
+	while not q.empty():
+		ch=q.get()
+		line=line+ch
+		if ch =="\n":
+			processLine(line)
+			line=""
+
+	# print(len(line))
+
+
+
 	#cdate = datetime.datetime.utcnow()
 	#sdate = datetime.datetime.strftime(cdate,"%y%j%H")
 	#sys.stdout.write(data)
