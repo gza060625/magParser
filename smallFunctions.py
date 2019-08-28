@@ -14,7 +14,7 @@ outputPath="/home/enson/magParser"
 fileHandler=None
 q=Queue.Queue()
 
-dayFlag=-1
+lastDay=None
 
 #########################################################################
 
@@ -35,7 +35,7 @@ def file2String(inputFile):
 #########################################################################
 counter=0     
 def processLine(line):
-    global counter,fileHandler
+    global counter,fileHandler,lastDay
     print(str(counter)+" "+line)
     counter+=1
 
@@ -43,15 +43,17 @@ def processLine(line):
     x=line[0]
     y=line[1]
     z=line[2]
-    print(line)
+    # print(line)
     dateStr=line[12]
     timeStr=line[4]
     
 
     datetime=str2datetime(dateStr,timeStr)
-  
+    
+    if not lastDay==dateStr:
+        fileHandler=createDateFolder(datetime)
+        lastDay=dateStr
 
-    fileHandler=createDateFolder(datetime)
     fileHandler.write(datetime2STR(datetime))
     fileHandler.write("\t".join([x,y,z])+"\n")
 
@@ -92,7 +94,7 @@ def createOutputFolder(path):
     else:
         print("old")    
 
-    print(path)   
+    # print(path)   
     
 def findOutputFileName(year,month,day):    
     return "_".join([str(year),str(month),str(day)])+".txt"
@@ -100,7 +102,7 @@ def findOutputFileName(year,month,day):
 def createOutputFile(folderPath,fileName):     
     filePath=os.path.join(folderPath,fileName)
     fileHandler=open(filePath,"a") 
-    print(filePath)     
+    # print(filePath)     
     return fileHandler
 
 #########################################################################
