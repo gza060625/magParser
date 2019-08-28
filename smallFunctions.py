@@ -7,7 +7,7 @@ import glob, os,sys
 #########################################################################
 inputPath="" 
 
-outputPath="./"
+outputPath="/home/enson/magParser"
 # outputPath=""
 #########################################################################
 
@@ -43,33 +43,40 @@ def processLine(line):
     x=line[0]
     y=line[1]
     z=line[2]
-    epoch=int(line[4])
+    print(line)
+    dateStr=line[12]
+    timeStr=line[4]
+    
 
-    print(epoch)
+    datetime=str2datetime(dateStr,timeStr)
+  
 
-    fileHandler=createDateFolder(epoch)
-    fileHandler.write(Epoch2STR(epoch))
-    fileHandler.write(",".join([x,y,z])+"\n")
+    fileHandler=createDateFolder(datetime)
+    fileHandler.write(datetime2STR(datetime))
+    fileHandler.write("\t".join([x,y,z])+"\n")
 
     # print(x,y,z,epoch)
 
+def str2datetime(dateStr,timeStr):
+    return time.strptime(dateStr+timeStr,"%d%m%y%H%M%S")
 
+     
 
-def Epoch2STR(epoch):
-    return time.strftime('%Y-%m-%d %H:%M:%S.000 %j', time.gmtime(epoch))
+def datetime2STR(datetime):
+    return time.strftime('%Y-%m-%d %H:%M:%S.000 %j\t', datetime)
 #########################################################################
 
-def createDateFolder(epoch):
+def createDateFolder(datetime):
     global fileHandler
     
-    date=time.gmtime(epoch)
-    folderPath=findOutputPath(date.tm_year,date.tm_mon,date.tm_mday)
+    
+    folderPath=findOutputPath(datetime.tm_year,datetime.tm_mon,datetime.tm_mday)
     createOutputFolder(folderPath)
     
     if not fileHandler==None:
         fileHandler.close()
         
-    name=findOutputFileName(date.tm_year,date.tm_mon,date.tm_mday)
+    name=findOutputFileName(datetime.tm_year,datetime.tm_mon,datetime.tm_mday)
     fileHandler=createOutputFile(folderPath,name)
     
     return fileHandler
@@ -92,7 +99,8 @@ def findOutputFileName(year,month,day):
 
 def createOutputFile(folderPath,fileName):     
     filePath=os.path.join(folderPath,fileName)
-    fileHandler=open(filePath,"a")      
+    fileHandler=open(filePath,"a") 
+    print(filePath)     
     return fileHandler
 
 #########################################################################
