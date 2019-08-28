@@ -36,6 +36,7 @@ iniDict=dict()
 ################################################################################
 def processLine(line):
     global fileHandler,lastDay 
+    print("Line: {}".format(line))
 
     line=line.split(",")
     x=line[0]
@@ -186,18 +187,22 @@ if __name__ =="__main__":
 
 
 
-	firsttimeFlag=2
+	firsttimeFlag=True
 	line=""
 	while True:
-		data = conn.recv(8)  #2048
+		data = conn.recv(120)  #2048
 		
 		q=str2Queue(data,q)
+		print("Data: {}".format(data))
 
-		if firsttimeFlag:
+
+		if firsttimeFlag:	
 			while not q.empty():
 				ch=q.get()
 				if ch=="\n":
-					firsttimeFlag=firsttimeFlag-1
+					firsttimeFlag=False
+					print("NewLine")
+					break
 
 		while not q.empty():
 			ch=q.get()
