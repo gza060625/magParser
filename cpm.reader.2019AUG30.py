@@ -36,7 +36,7 @@ iniDict=dict()
 ################################################################################
 def processLine(line):
     global fileHandler,lastDay 
-    print("Line: {}".format(line))
+    # print("Line: {}".format(line))
 
     line=line.split(",")
     x=line[0]
@@ -81,7 +81,7 @@ def createFileHandler(datetime):
 
 def findOutputPath(year,month,day,outputPath=outputPath): 
     global iniDict   
-    return os.path.join(outputPath,iniDict["IAGA CODE"],str(year),str(month),str(day))
+    return os.path.join(outputPath,iniDict["IAGA CODE"],iniDict["Instrument Name"],str(year).zfill(4),str(month).zfill(2),str(day).zfill(2))
 
 def createOutputFolder(path):  
     if not os.path.exists(path):
@@ -93,7 +93,7 @@ def findOutputFileName(datetime):
     global iniDict
     timestamp=time.strftime('%y%m%d', datetime)
     
-    return ".".join(["L0",iniDict["Instrument Type"],iniDict["IAGA CODE"],iniDict["ISO Cadence"],timestamp,".txt"])
+    return ".".join(["L0",iniDict["Instrument Type"],iniDict["IAGA CODE"],iniDict["ISO Cadence"],timestamp,"txt"])
 
 def createOutputFile(folderPath,fileName):  
     global iniDict   
@@ -190,10 +190,10 @@ if __name__ =="__main__":
 	firsttimeFlag=True
 	line=""
 	while True:
-		data = conn.recv(120)  #2048
+		data = conn.recv(128)  #2048
 		
 		q=str2Queue(data,q)
-		print("Data: {}".format(data))
+		# print("Data: {}".format(data))
 
 
 		if firsttimeFlag:	
@@ -201,12 +201,19 @@ if __name__ =="__main__":
 				ch=q.get()
 				if ch=="\n":
 					firsttimeFlag=False
-					print("NewLine")
+					# print("NewLine")
 					break
 
 		while not q.empty():
 			ch=q.get()
 			line=line+ch
 			if ch =="\n":
-				processLine(line)
+				# print(line)
+				try:
+					processLine(line)
+					
+				except:
+					# print("!!!!")
+					print("Corrupted Line: {}".format(line))
+
 				line=""
